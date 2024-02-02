@@ -40,38 +40,36 @@ def check_to_do(text):
 ## 3. Create Examples as Tests
 
 
+from lib.check_to_do import *
+import pytest
 
-```python
 """
 Given a string containing the phrase "#TODO"
-Returns: "The inputted text containts "#TODO""
+Returns: "The inputted text contains "#TODO""
 
 """
-check_to_do("This is something i need #TODO") => "The inputted text containts "#TODO""
+def test_check_to_do_text_contains_todo():
+    result = check_to_do("This text contains #TODO")
+    assert result == "The inputted text contains "#TODO""
 
 """
 Given a string not containing the phrase "#TODO"
-Returns: "The inputted text does not containts "#TODO"" =>
-
+Returns: "The inputted text does not contains "#TODO"" =>
 """
-check_to_do("This is something i need to do") => "The inputted text does not containts "#TODO""
+def test_check_to_do_text_does_not_contain_todo():
+    result = check_to_do("This text contains to do")
+    assert result == "The inputted text does not contain "#TODO""
 
 """
 Given a blank string 
 Returns: Error - no string provided  
 """
 
-check_to_do("") => "Error - no string provided" 
-
-"""
-!! OPTIONAL !!
-Given a non string
-Returns: Error - "This is not valid text"
-"""
-
-check_to_do(12345) => "Error - NON STRING PROVIED 
-
-
+def test_check_blank_text():
+    with pytest.raises(Exception) as err:
+        check_to_do("")
+    error_message = str(err.value)
+    assert error_message == "Error - no string provided"
 ```
 
 _Encode each example as a test. You can add to the above list as you go._
@@ -87,13 +85,10 @@ Here's an example for you to start with:
 
 from lib.extract_uppercase import *
 
-"""
-Given a lower and an uppercase word
-It returns a list with the uppercase word
-"""
-def test_extract_uppercase_with_upper_then_lower():
-    result = extract_uppercase("hello WORLD")
-    assert result == ["WORLD"]
-```
-
-Ensure all test function names are unique, otherwise pytest will ignore them!
+def check_to_do(text):
+    if text == "":
+        raise Exception("Error - no string provided")
+    elif "#TODO" in text:
+        return "The inputted text containts "#TODO""
+    else:
+        return "The inputted text does not contain "#TODO""
